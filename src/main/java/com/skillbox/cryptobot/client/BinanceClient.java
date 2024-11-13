@@ -17,8 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class BinanceClient {
+
     private final HttpGet httpGet;
+
     private final ObjectMapper mapper;
+
     private final HttpClient httpClient;
 
     public BinanceClient(@Value("${binance.api.getPrice}") String uri) {
@@ -28,6 +31,7 @@ public class BinanceClient {
                 .setSSLHostnameVerifier(new NoopHostnameVerifier())
                 .build();
     }
+
     public double getBitcoinPrice() throws IOException {
         log.info("Performing client call to binanceApi to get bitcoin price");
         try {

@@ -10,7 +10,9 @@ import java.util.concurrent.atomic.AtomicReference;
 @Service
 @Slf4j
 public class CryptoCurrencyService {
+
     private final AtomicReference<Double> price = new AtomicReference<>();
+
     private final BinanceClient client;
 
     public CryptoCurrencyService(BinanceClient client) {
@@ -23,4 +25,5 @@ public class CryptoCurrencyService {
         }
         return price.get();
     }
+
 }

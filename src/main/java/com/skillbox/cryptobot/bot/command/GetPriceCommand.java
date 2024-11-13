@@ -1,6 +1,7 @@
 package com.skillbox.cryptobot.bot.command;
 
 import com.skillbox.cryptobot.service.CryptoCurrencyService;
+import com.skillbox.cryptobot.utils.SendMessageUtil;
 import com.skillbox.cryptobot.utils.TextUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import java.io.IOException;
+
 /**
  * Обработка команды получения текущей стоимости валюты
  */
@@ -18,7 +21,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 @AllArgsConstructor
 public class GetPriceCommand implements IBotCommand {
 
-    private final CryptoCurrencyService service;
+    private final CryptoCurrencyService cryptoCurrencyService;
 
     @Override
     public String getCommandIdentifier() {
@@ -34,11 +37,16 @@ public class GetPriceCommand implements IBotCommand {
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         SendMessage answer = new SendMessage();
         answer.setChatId(message.getChatId());
+
         try {
-            answer.setText("Текущая цена биткоина " + TextUtil.toString(service.getBitcoinPrice()) + " USD");
-            absSender.execute(answer);
-        } catch (Exception e) {
-            log.error("Ошибка возникла /get_price методе", e);
+            answer.setText("Текущая цена биткоина " + TextUtil.toString(cryptoCurrencyService.getBitcoinPrice()) + " USD");
+            SendMessageUtil.send(absSender, answer);
+
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            answer.setText("Что-то пошло не так :(\nПовторите запрос");
+            SendMessageUtil.send(absSender, answer);
         }
     }
+
 }

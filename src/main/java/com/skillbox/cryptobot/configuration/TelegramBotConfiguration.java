@@ -1,6 +1,5 @@
 package com.skillbox.cryptobot.configuration;
 
-
 import com.skillbox.cryptobot.bot.CryptoBot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +11,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 @Configuration
 @Slf4j
 public class TelegramBotConfiguration {
+
     @Bean
     TelegramBotsApi telegramBotsApi(CryptoBot cryptoBot) {
         TelegramBotsApi botsApi = null;
@@ -23,4 +23,5 @@ public class TelegramBotConfiguration {
         }
         return botsApi;
     }
+
 }
